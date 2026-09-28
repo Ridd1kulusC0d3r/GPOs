@@ -1,0 +1,48 @@
+id: GPO-149
+rank: 149
+name: "User Account Control: Detect application installations and prompt for elevation"
+category: { id: CAT02, name: "Local Accounts & UAC" }
+priority: { cti_score: 84.95, band: P2 }
+defense: { function: Detect, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Windows Settings\\Security Settings\\Local Policies\\Security Options"
+  recommended_state: "Enabled"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0004 Privilege Escalation"
+    - "TA0003 Persistence"
+    - "TA0005 Stealth"
+    - "TA0112 Defense Impairment"
+  techniques:
+    - { id: T1548.002, name: "Bypass User Account Control" }
+    - { id: T1136.001, name: "Create Account: Local Account" }
+    - { id: T1078.003, name: "Valid Accounts: Local Accounts" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-CH, name: "Credential Hardening" }
+    - { id: D3-ACH, name: "Application Configuration Hardening" }
+telemetry:
+  channels:
+    - "Security"
+  event_ids:
+    - "4720"
+    - "4732"
+    - "4672"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: recommended
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 88
+  blast_radius: 82
+  detection_value: 78
+  deployment_friction: 30
+  validation_confidence: 88
+source_id: MS-SCT

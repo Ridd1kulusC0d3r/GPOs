@@ -1,0 +1,45 @@
+id: GPO-160
+rank: 160
+name: "Choose drive encryption method and cipher strength"
+category: { id: CAT14, name: "BitLocker, Secure Boot & Device Guard" }
+priority: { cti_score: 83.85, band: P2 }
+defense: { function: Prevent, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Administrative Templates\\Windows Components\\BitLocker Drive Encryption / System\\Device Guard"
+  recommended_state: "XTS-AES 256 or organization-approved standard"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0006 Credential Access"
+    - "TA0009 Collection"
+    - "TA0010 Exfiltration"
+  techniques:
+    - { id: T1003.002, name: "Security Account Manager" }
+    - { id: T1003.004, name: "LSA Secrets" }
+    - { id: T1005, name: "Data from Local System" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-FE, name: "File Encryption" }
+    - { id: D3-CH, name: "Credential Hardening" }
+telemetry:
+  channels:
+    - "Microsoft-Windows-BitLocker/BitLocker Management"
+  event_ids:
+
+roles:
+  workstation: required
+  member-server: recommended
+  domain-controller: recommended
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: recommended
+  high-security: required
+risk_components:
+  threat_prevalence: 78
+  blast_radius: 86
+  detection_value: 60
+  deployment_friction: 45
+  validation_confidence: 92
+source_id: MS-BITLOCKER

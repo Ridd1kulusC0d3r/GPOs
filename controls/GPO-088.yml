@@ -1,0 +1,51 @@
+id: GPO-088
+rank: 88
+name: "Audit Process Creation"
+category: { id: CAT17, name: "Advanced Audit: Process, Object, Privilege & Policy" }
+priority: { cti_score: 91, band: P1 }
+defense: { function: Detect, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System Audit Policies"
+  recommended_state: "Success"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0002 Execution"
+    - "TA0005 Stealth"
+    - "TA0112 Defense Impairment"
+    - "TA0004 Privilege Escalation"
+    - "TA0009 Collection"
+  techniques:
+    - { id: T1059, name: "Command and Scripting Interpreter" }
+    - { id: T1106, name: "Native API" }
+    - { id: T1562.001, name: "Impair Defenses" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-PA, name: "Process Analysis" }
+    - { id: D3-PLA, name: "Process Lineage Analysis" }
+telemetry:
+  channels:
+    - "Security"
+  event_ids:
+    - "4688"
+    - "4673"
+    - "4719"
+    - "5140"
+    - "5145"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 94
+  blast_radius: 88
+  detection_value: 100
+  deployment_friction: 30
+  validation_confidence: 97
+source_id: MS-AUDIT

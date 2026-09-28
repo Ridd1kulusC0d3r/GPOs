@@ -1,0 +1,49 @@
+id: GPO-037
+rank: 37
+name: "Hardened UNC Paths - NETLOGON"
+category: { id: CAT06, name: "SMB, Name Resolution & Legacy Network Surface" }
+priority: { cti_score: 96.1, band: P0 }
+defense: { function: Prevent, rollout: "Pilot -> Enforce" }
+policy:
+  path: "Computer Configuration\\Windows Settings\\Security Settings\\Local Policies\\Security Options / Administrative Templates\\Network"
+  recommended_state: "Require mutual authentication and integrity"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0008 Lateral Movement"
+    - "TA0006 Credential Access"
+    - "TA0007 Discovery"
+  techniques:
+    - { id: T1557.001, name: "LLMNR/NBT-NS Poisoning and SMB Relay" }
+    - { id: T1021.002, name: "SMB/Windows Admin Shares" }
+    - { id: T1046, name: "Network Service Discovery" }
+    - { id: T1018, name: "Remote System Discovery" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-NTA, name: "Network Traffic Analysis" }
+    - { id: D3-ACH, name: "Application Configuration Hardening" }
+telemetry:
+  channels:
+    - "Security"
+    - "Microsoft-Windows-SMBClient/Connectivity"
+    - "Microsoft-Windows-SMBServer/Audit"
+  event_ids:
+    - "5140"
+    - "5145"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 93
+  blast_radius: 94
+  detection_value: 84
+  deployment_friction: 45
+  validation_confidence: 93
+source_id: MS-SMB

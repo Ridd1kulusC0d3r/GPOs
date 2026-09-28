@@ -1,88 +1,68 @@
-# GPO Threat-Informed Security Catalog
+# GPO Threat-Informed Defense
 
-> **200 Windows security GPO/ADMX controls classified through a threat-intelligence lens.**  
-> Built for labs, purple teams, detection engineering, Active Directory hardening and security-baseline review.
+> **200 Windows security controls connected to threat intelligence, ATT&CK, D3FEND, telemetry, role profiles and validation.**
 
-[![Catalog](https://img.shields.io/badge/catalog-200%20controls-blue)](catalog/top-200-gpos.csv)
-[![Focus](https://img.shields.io/badge/focus-threat--informed%20hardening-purple)](docs/CLASSIFICATION.md)
-[![CI](https://img.shields.io/badge/CI-catalog%20validation-success)](.github/workflows/catalog-ci.yml)
+V1 created the ranked Top 200. **V2 turns it into a defensive knowledge base.**
 
-## Why this repository exists
-
-The original repository started as a small lab collection of PowerShell snippets. This version turns it into a structured, versionable security catalog rather than a pile of registry edits with optimistic comments.
-
-The project does **not** claim that one universal GPO baseline fits every organization. Microsoft recommends using security baselines as a starting point, then testing and adapting them to the environment.
-
-Each control adds a threat-intelligence layer:
-
-- **CTI score (0-100)** for implementation sequencing.
-- **Priority:** `P0`, `P1`, `P2`, `P3`.
-- **Defensive function:** `Prevent`, `Detect`, `Contain`, `Recover`.
-- **MITRE ATT&CK tactical mapping**.
-- **Threat scenario** such as credential theft, lateral movement, ransomware, C2 or anti-forensics.
-- **Rollout mode:** `Enforce`, `Audit -> Enforce`, `Pilot`, `Evaluate` or `Exception-only`.
-- **Source ID** linked to Microsoft documentation and current baseline material.
-
-## Repository map
+## Core model
 
 ```text
-.
-├── catalog/
-│   └── top-200-gpos.csv
-├── docs/
-│   ├── CLASSIFICATION.md
-│   ├── DEPLOYMENT.md
-│   └── SOURCES.md
-├── scripts/
-│   ├── query_catalog.py
-│   └── validate_catalog.py
-├── legacy/
-└── .github/workflows/
-    └── catalog-ci.yml
+Threat / Actor → ATT&CK → GPO / ADMX → D3FEND → Windows telemetry → validation
 ```
 
-## Query examples
+Every control now has its own `controls/GPO-xxx.yml` with ATT&CK v19.2 techniques, D3FEND 1.6.0 mappings, telemetry, role applicability and risk components.
+
+## Capabilities
+
+- 200 individual YAML controls
+- 8 deployment profiles: workstation, member server, DC, PAW, developer workstation, jump server, RDS, high security
+- 6 threat packs: ransomware, credential theft, lateral movement, initial access, living off the land, AD takeover
+- actor overlays for Scattered Spider, TeamPCP, ShinyHunters and Storm-0501
+- environment-adjusted risk engine
+- baseline comparator for CSV/JSON/XML/HTML/text exports\n- heuristic GPO-report drift check
+- Attack Path to Policy
+- graph + STIX 2.1 custom-object export\n- Neo4j node/relationship export
+- Sigma starter rules
+- 10 defensive labs
+- GitHub Pages explorer
+
+## CLI
 
 ```bash
-python scripts/validate_catalog.py
-python scripts/query_catalog.py --priority P0
-python scripts/query_catalog.py --tactic "Credential Access"
-python scripts/query_catalog.py --search NTLM
-python scripts/query_catalog.py --rollout "Audit -> Enforce"
+python scripts/gpoctl.py search NTLM
+python scripts/gpoctl.py search --technique T1003 --priority P0
+python scripts/gpoctl.py pack ransomware
+python scripts/gpoctl.py profile domain-controller
+python scripts/gpoctl.py path credential-theft
+python scripts/gpoctl.py score GPO-001 --asset-criticality 100 --detection-gap 70
+python scripts/gpoctl.py drift --input gpo-report.xml\npython scripts/baseline_compare.py --observed assessment.csv\npython scripts/export_neo4j.py --output exports/neo4j
 ```
 
-## Recommended operating model
+## Repository
 
-1. **Baseline first:** compare the environment against the current Microsoft Security Compliance Toolkit.
-2. **Threat relevance second:** prioritize controls tied to observed adversaries, attack paths and crown jewels.
-3. **Audit before block** for compatibility-sensitive controls such as NTLM restrictions, ASR, AppLocker/App Control, device restrictions and some RDP/printing settings.
-4. **Pilot by OU or security group** before broad deployment.
-5. **Collect telemetry before and after enforcement** so the control can be measured.
-6. **Document exceptions** with owner, justification, compensating control and expiry date.
+```text
+controls/        GPO-001.yml ... GPO-200.yml
+data/            machine-readable indexes
+profiles/        role baselines
+threat-packs/    threat-oriented control views
+actors/          ATT&CK actor overlays
+detections/      Sigma starters
+labs/            validation labs
+scripts/         CLI, validation, graph/STIX export
+site/            GitHub Pages explorer
+docs/            architecture and operating model
+```
 
-See [Deployment Playbook](docs/DEPLOYMENT.md).
+## Framework versions
 
-## Scope
+- MITRE ATT&CK **19.2**
+- MITRE D3FEND **1.6.0**
+- Sigma Specification **2.1.0**
 
-Primary target:
+ATT&CK v19 replaced the old Enterprise `TA0005 Defense Evasion` label with **TA0005 Stealth** and introduced **TA0112 Defense Impairment**. The catalog has been normalized accordingly.
 
-- Windows 11 enterprise endpoints
-- Windows Server 2025 member servers
-- Windows Server 2025 domain controllers
-- Active Directory environments using Group Policy and current ADMX templates
+## Deployment rule
 
-Some controls are version-, role-, licensing- or feature-dependent. Always verify the exact policy name, ADMX availability and supported value for the Windows build you deploy.
+Do not deploy all controls blindly. Authentication, application control, NTLM, RDP, printing, device control and firewall changes need dependency analysis and staged rollout. Microsoft documentation remains authoritative for exact policy semantics.
 
-## Sources
-
-The catalog is anchored in Microsoft Security Baselines / Security Compliance Toolkit and Microsoft product documentation, with MITRE ATT&CK used for threat mapping.
-
-See [Sources](docs/SOURCES.md).
-
-## Safety / deployment warning
-
-This repository is intended for **lab validation and controlled enterprise hardening**. Do not import all 200 controls blindly into production. Authentication, application control, device control, firewall, print and remote-access policies can break legitimate workloads when deployed without dependency analysis.
-
-## Legacy
-
-The original scripts are preserved under `legacy/` for historical context. They are not the authoritative implementation layer for this catalog.
+See [Architecture](docs/ARCHITECTURE.md), [Threat Packs](docs/THREAT_PACKS.md), [Risk Engine](docs/RISK_ENGINE.md), [Telemetry](docs/TELEMETRY.md) and [Sources](docs/SOURCES.md).

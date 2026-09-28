@@ -1,0 +1,12 @@
+title: Windows Security Event Log Cleared
+id: 61cc7c4f-68bc-49f0-9c80-1ae29bb830ac
+status: test
+description: Detects clearing of the Windows Security audit log.
+author: GPO Threat-Informed Security Catalog
+date: 2026-09-27
+logsource: { product: windows, service: security }
+detection:
+  selection: { EventID: 1102 }
+  condition: selection
+level: high
+tags: [attack.stealth, attack.t1070.001]

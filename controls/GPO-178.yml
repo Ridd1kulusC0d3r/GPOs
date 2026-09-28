@@ -1,0 +1,46 @@
+id: GPO-178
+rank: 178
+name: "Audit: Shut down system immediately if unable to log security audits"
+category: { id: CAT18, name: "Event Logs, WEF & Detection Readiness" }
+priority: { cti_score: 81.95, band: P3 }
+defense: { function: Contain, rollout: "Evaluate" }
+policy:
+  path: "Computer Configuration\\Administrative Templates\\Windows Components\\Event Log Service / Event Forwarding"
+  recommended_state: "Disabled unless a high-assurance environment explicitly requires fail-closed behavior"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0005 Stealth"
+    - "TA0112 Defense Impairment"
+  techniques:
+    - { id: T1070.001, name: "Clear Windows Event Logs" }
+    - { id: T1562.002, name: "Disable Windows Event Logging" }
+    - { id: T1562.001, name: "Impair Defenses" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-PA, name: "Process Analysis" }
+    - { id: D3-NTA, name: "Network Traffic Analysis" }
+telemetry:
+  channels:
+    - "Security"
+    - "System"
+  event_ids:
+    - "1102"
+    - "4719"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 86
+  blast_radius: 96
+  detection_value: 100
+  deployment_friction: 40
+  validation_confidence: 96
+source_id: MS-AUDIT

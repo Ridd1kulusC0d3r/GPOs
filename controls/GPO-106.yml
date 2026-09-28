@@ -1,0 +1,52 @@
+id: GPO-106
+rank: 106
+name: "Audit Other Account Management Events"
+category: { id: CAT16, name: "Advanced Audit: Account Management & Directory Services" }
+priority: { cti_score: 89.25, band: P1 }
+defense: { function: Detect, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System Audit Policies"
+  recommended_state: "Success and Failure"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0003 Persistence"
+    - "TA0004 Privilege Escalation"
+    - "TA0006 Credential Access"
+  techniques:
+    - { id: T1136, name: "Create Account" }
+    - { id: T1098, name: "Account Manipulation" }
+    - { id: T1484.001, name: "Group Policy Modification" }
+    - { id: T1003.006, name: "DCSync" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-PA, name: "Process Analysis" }
+    - { id: D3-CH, name: "Credential Hardening" }
+telemetry:
+  channels:
+    - "Security"
+    - "Directory Service"
+  event_ids:
+    - "4720"
+    - "4728"
+    - "4732"
+    - "4756"
+    - "5136"
+    - "4662"
+roles:
+  workstation: optional
+  member-server: recommended
+  domain-controller: required
+  paw: required
+  developer-workstation: optional
+  jump-server: recommended
+  rds-server: recommended
+  high-security: required
+risk_components:
+  threat_prevalence: 90
+  blast_radius: 100
+  detection_value: 100
+  deployment_friction: 28
+  validation_confidence: 95
+source_id: MS-AUDIT

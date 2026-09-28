@@ -1,0 +1,15 @@
+title: PowerShell Script Block Telemetry Available
+id: 811b88c6-9055-413d-84e0-b0c395755769
+status: experimental
+description: Telemetry-health rule for Script Block Logging. Do not alert on every match.
+author: GPO Threat-Informed Security Catalog
+date: 2026-09-27
+logsource:
+  product: windows
+  category: ps_script
+  definition: Script Block Logging must be enabled.
+detection:
+  selection: { EventID: 4104 }
+  condition: selection
+level: informational
+tags: [attack.execution, attack.t1059.001]

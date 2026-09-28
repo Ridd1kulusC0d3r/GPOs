@@ -1,0 +1,48 @@
+id: GPO-052
+rank: 52
+name: "Turn on behavior monitoring"
+category: { id: CAT08, name: "Microsoft Defender Antivirus" }
+priority: { cti_score: 94.7, band: P1 }
+defense: { function: Prevent, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Administrative Templates\\Windows Components\\Microsoft Defender Antivirus"
+  recommended_state: "Enabled"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0002 Execution"
+    - "TA0005 Stealth"
+    - "TA0112 Defense Impairment"
+    - "TA0011 Command and Control"
+  techniques:
+    - { id: T1204.002, name: "Malicious File" }
+    - { id: T1105, name: "Ingress Tool Transfer" }
+    - { id: T1059, name: "Command and Scripting Interpreter" }
+    - { id: T1486, name: "Data Encrypted for Impact" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-PA, name: "Process Analysis" }
+    - { id: D3-ACH, name: "Application Configuration Hardening" }
+telemetry:
+  channels:
+    - "Microsoft-Windows-Windows Defender/Operational"
+  event_ids:
+    - "1116"
+    - "1117"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 97
+  blast_radius: 92
+  detection_value: 95
+  deployment_friction: 30
+  validation_confidence: 95
+source_id: MS-DEFENDER

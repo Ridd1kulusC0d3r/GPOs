@@ -1,0 +1,49 @@
+id: GPO-011
+rank: 11
+name: "Restrict delegation of credentials to remote servers"
+category: { id: CAT04, name: "Credential Protection & LSA" }
+priority: { cti_score: 98.8, band: P0 }
+defense: { function: Prevent, rollout: "Pilot -> Enforce" }
+policy:
+  path: "Computer Configuration\\Administrative Templates\\System\\Device Guard / Credentials Delegation"
+  recommended_state: "Require Remote Credential Guard or Restricted Admin for suitable RDP admin workflows"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0006 Credential Access"
+    - "TA0008 Lateral Movement"
+    - "TA0004 Privilege Escalation"
+  techniques:
+    - { id: T1003, name: "OS Credential Dumping" }
+    - { id: T1550.002, name: "Pass the Hash" }
+    - { id: T1558, name: "Steal or Forge Kerberos Tickets" }
+    - { id: T1021.001, name: "Remote Desktop Protocol" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-CH, name: "Credential Hardening" }
+    - { id: D3-AH, name: "Application Hardening" }
+telemetry:
+  channels:
+    - "Security"
+    - "Microsoft-Windows-DeviceGuard/Operational"
+  event_ids:
+    - "4624"
+    - "4625"
+    - "4672"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 98
+  blast_radius: 100
+  detection_value: 84
+  deployment_friction: 42
+  validation_confidence: 94
+source_id: MS-CRED

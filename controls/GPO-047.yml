@@ -1,0 +1,50 @@
+id: GPO-047
+rank: 47
+name: "Block credential stealing from the Windows local security authority subsystem"
+category: { id: CAT09, name: "Attack Surface Reduction Rules" }
+priority: { cti_score: 95.1, band: P0 }
+defense: { function: Prevent, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Administrative Templates\\Windows Components\\Microsoft Defender Antivirus\\Microsoft Defender Exploit Guard\\Attack Surface Reduction"
+  recommended_state: "Block"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0002 Execution"
+    - "TA0004 Privilege Escalation"
+    - "TA0006 Credential Access"
+    - "TA0005 Stealth"
+    - "TA0112 Defense Impairment"
+  techniques:
+    - { id: T1204.002, name: "Malicious File" }
+    - { id: T1059, name: "Command and Scripting Interpreter" }
+    - { id: T1218, name: "System Binary Proxy Execution" }
+    - { id: T1003, name: "OS Credential Dumping" }
+    - { id: T1068, name: "Exploitation for Privilege Escalation" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-ACH, name: "Application Configuration Hardening" }
+    - { id: D3-PA, name: "Process Analysis" }
+telemetry:
+  channels:
+    - "Microsoft-Windows-Windows Defender/Operational"
+  event_ids:
+    - "1121"
+    - "1122"
+roles:
+  workstation: required
+  member-server: recommended
+  domain-controller: recommended
+  paw: required
+  developer-workstation: recommended
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 98
+  blast_radius: 92
+  detection_value: 91
+  deployment_friction: 55
+  validation_confidence: 92
+source_id: MS-ASR

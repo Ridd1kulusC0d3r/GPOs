@@ -1,0 +1,185 @@
+{
+  "version": "19.2",
+  "techniques": [
+    {
+      "id": "T1003",
+      "name": "OS Credential Dumping"
+    },
+    {
+      "id": "T1550.002",
+      "name": "Pass the Hash"
+    },
+    {
+      "id": "T1558",
+      "name": "Steal or Forge Kerberos Tickets"
+    },
+    {
+      "id": "T1021.001",
+      "name": "Remote Desktop Protocol"
+    },
+    {
+      "id": "T1078.003",
+      "name": "Valid Accounts: Local Accounts"
+    },
+    {
+      "id": "T1021",
+      "name": "Remote Services"
+    },
+    {
+      "id": "T1557.001",
+      "name": "LLMNR/NBT-NS Poisoning and SMB Relay"
+    },
+    {
+      "id": "T1558.003",
+      "name": "Kerberoasting"
+    },
+    {
+      "id": "T1187",
+      "name": "Forced Authentication"
+    },
+    {
+      "id": "T1021.002",
+      "name": "SMB/Windows Admin Shares"
+    },
+    {
+      "id": "T1046",
+      "name": "Network Service Discovery"
+    },
+    {
+      "id": "T1018",
+      "name": "Remote System Discovery"
+    },
+    {
+      "id": "T1204.002",
+      "name": "Malicious File"
+    },
+    {
+      "id": "T1059",
+      "name": "Command and Scripting Interpreter"
+    },
+    {
+      "id": "T1218",
+      "name": "System Binary Proxy Execution"
+    },
+    {
+      "id": "T1068",
+      "name": "Exploitation for Privilege Escalation"
+    },
+    {
+      "id": "T1105",
+      "name": "Ingress Tool Transfer"
+    },
+    {
+      "id": "T1486",
+      "name": "Data Encrypted for Impact"
+    },
+    {
+      "id": "T1071",
+      "name": "Application Layer Protocol"
+    },
+    {
+      "id": "T1041",
+      "name": "Exfiltration Over C2 Channel"
+    },
+    {
+      "id": "T1686.003",
+      "name": "Windows Host Firewall"
+    },
+    {
+      "id": "T1059.001",
+      "name": "PowerShell"
+    },
+    {
+      "id": "T1546",
+      "name": "Event Triggered Execution"
+    },
+    {
+      "id": "T1110",
+      "name": "Brute Force"
+    },
+    {
+      "id": "T1078",
+      "name": "Valid Accounts"
+    },
+    {
+      "id": "T1106",
+      "name": "Native API"
+    },
+    {
+      "id": "T1562.001",
+      "name": "Impair Defenses"
+    },
+    {
+      "id": "T1136",
+      "name": "Create Account"
+    },
+    {
+      "id": "T1098",
+      "name": "Account Manipulation"
+    },
+    {
+      "id": "T1484.001",
+      "name": "Group Policy Modification"
+    },
+    {
+      "id": "T1003.006",
+      "name": "DCSync"
+    },
+    {
+      "id": "T1189",
+      "name": "Drive-by Compromise"
+    },
+    {
+      "id": "T1203",
+      "name": "Exploitation for Client Execution"
+    },
+    {
+      "id": "T1547",
+      "name": "Boot or Logon Autostart Execution"
+    },
+    {
+      "id": "T1548.002",
+      "name": "Bypass User Account Control"
+    },
+    {
+      "id": "T1136.001",
+      "name": "Create Account: Local Account"
+    },
+    {
+      "id": "T1550",
+      "name": "Use Alternate Authentication Material"
+    },
+    {
+      "id": "T1003.002",
+      "name": "Security Account Manager"
+    },
+    {
+      "id": "T1003.004",
+      "name": "LSA Secrets"
+    },
+    {
+      "id": "T1005",
+      "name": "Data from Local System"
+    },
+    {
+      "id": "T1070.001",
+      "name": "Clear Windows Event Logs"
+    },
+    {
+      "id": "T1562.002",
+      "name": "Disable Windows Event Logging"
+    },
+    {
+      "id": "T1091",
+      "name": "Replication Through Removable Media"
+    },
+    {
+      "id": "T1052.001",
+      "name": "Exfiltration over USB"
+    },
+    {
+      "id": "T1190",
+      "name": "Exploit Public-Facing Application"
+    }
+  ]
+}

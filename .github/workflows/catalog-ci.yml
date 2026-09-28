@@ -1,29 +1,20 @@
 name: Catalog CI
-
-on:
-  push:
-    branches: ["main", "feat/**"]
-  pull_request:
-
-permissions:
-  contents: read
-
+on: [push, pull_request]
+permissions: { contents: read }
 jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Validate Top 200 catalog
-        run: python scripts/validate_catalog.py
-
-      - name: Smoke-test query interface
-        run: |
-          python scripts/query_catalog.py --priority P0 --limit 5
-          python scripts/query_catalog.py --search NTLM --limit 5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python scripts/validate_catalog.py
+      - run: python scripts/validate_v2.py
+      - run: python scripts/gpoctl.py search --priority P0 --limit 3
+      - run: python scripts/gpoctl.py pack ransomware --priority P0 --limit 3
+      - run: python scripts/gpoctl.py profile domain-controller --limit 3
+      - run: python scripts/gpoctl.py path credential-theft
+      - run: python scripts/export_graph.py --check
+      - run: python scripts/export_graph.py --format stix --check
+      - run: python scripts/baseline_compare.py --self-test
+      - run: python scripts/export_neo4j.py --check
