@@ -1,0 +1,46 @@
+id: GPO-187
+rank: 187
+name: "All Removable Storage classes: Deny all access"
+category: { id: CAT19, name: "Printing, Removable Media & Device Control" }
+priority: { cti_score: 80.1, band: P3 }
+defense: { function: Prevent, rollout: "Pilot" }
+policy:
+  path: "Computer Configuration\\Administrative Templates\\Printers / System\\Device Installation / Removable Storage Access"
+  recommended_state: "Enable on hardened/privileged tiers; otherwise use targeted device control"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0002 Execution"
+    - "TA0004 Privilege Escalation"
+    - "TA0009 Collection"
+  techniques:
+    - { id: T1068, name: "Exploitation for Privilege Escalation" }
+    - { id: T1091, name: "Replication Through Removable Media" }
+    - { id: T1052.001, name: "Exfiltration over USB" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-ACH, name: "Application Configuration Hardening" }
+    - { id: D3-AH, name: "Application Hardening" }
+telemetry:
+  channels:
+    - "Microsoft-Windows-PrintService/Operational"
+    - "Security"
+  event_ids:
+    - "6416"
+roles:
+  workstation: recommended
+  member-server: recommended
+  domain-controller: required
+  paw: required
+  developer-workstation: evaluate
+  jump-server: required
+  rds-server: recommended
+  high-security: required
+risk_components:
+  threat_prevalence: 72
+  blast_radius: 78
+  detection_value: 64
+  deployment_friction: 62
+  validation_confidence: 82
+source_id: MS-PRINT

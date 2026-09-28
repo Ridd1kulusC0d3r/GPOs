@@ -1,0 +1,48 @@
+id: GPO-058
+rank: 58
+name: "Domain Profile: Firewall state"
+category: { id: CAT07, name: "Windows Defender Firewall & Network Containment" }
+priority: { cti_score: 94, band: P1 }
+defense: { function: Contain, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Windows Settings\\Security Settings\\Windows Defender Firewall with Advanced Security"
+  recommended_state: "On"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0011 Command and Control"
+    - "TA0008 Lateral Movement"
+    - "TA0010 Exfiltration"
+  techniques:
+    - { id: T1071, name: "Application Layer Protocol" }
+    - { id: T1021, name: "Remote Services" }
+    - { id: T1041, name: "Exfiltration Over C2 Channel" }
+    - { id: T1686.003, name: "Windows Host Firewall" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-NTA, name: "Network Traffic Analysis" }
+    - { id: D3-ACH, name: "Application Configuration Hardening" }
+telemetry:
+  channels:
+    - "Security"
+    - "Microsoft-Windows-Windows Firewall With Advanced Security/Firewall"
+  event_ids:
+    - "5156"
+    - "5157"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 91
+  blast_radius: 90
+  detection_value: 88
+  deployment_friction: 50
+  validation_confidence: 92
+source_id: MS-FW

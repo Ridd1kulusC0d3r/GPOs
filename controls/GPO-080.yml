@@ -1,0 +1,49 @@
+id: GPO-080
+rank: 80
+name: "Audit Kerberos Authentication Service"
+category: { id: CAT15, name: "Advanced Audit: Logon, Account Logon & Session Signals" }
+priority: { cti_score: 91.85, band: P1 }
+defense: { function: Detect, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Windows Settings\\Security Settings\\Advanced Audit Policy Configuration\\System Audit Policies\\Logon/Logoff and Account Logon"
+  recommended_state: "Success and Failure on domain controllers"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0006 Credential Access"
+    - "TA0008 Lateral Movement"
+    - "TA0004 Privilege Escalation"
+  techniques:
+    - { id: T1110, name: "Brute Force" }
+    - { id: T1078, name: "Valid Accounts" }
+    - { id: T1021, name: "Remote Services" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-PA, name: "Process Analysis" }
+    - { id: D3-NTA, name: "Network Traffic Analysis" }
+telemetry:
+  channels:
+    - "Security"
+  event_ids:
+    - "4624"
+    - "4625"
+    - "4634"
+    - "4740"
+    - "4964"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 96
+  blast_radius: 86
+  detection_value: 100
+  deployment_friction: 22
+  validation_confidence: 99
+source_id: MS-AUDIT

@@ -1,0 +1,48 @@
+id: GPO-156
+rank: 156
+name: "Require secure RPC communication"
+category: { id: CAT13, name: "RDP & Remote Administration" }
+priority: { cti_score: 84.25, band: P2 }
+defense: { function: Prevent, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Administrative Templates\\Windows Components\\Remote Desktop Services\\Remote Desktop Session Host"
+  recommended_state: "Enabled"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0008 Lateral Movement"
+    - "TA0006 Credential Access"
+    - "TA0002 Execution"
+  techniques:
+    - { id: T1021.001, name: "Remote Desktop Protocol" }
+    - { id: T1078, name: "Valid Accounts" }
+    - { id: T1550, name: "Use Alternate Authentication Material" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-DRA, name: "Disable Remote Access" }
+    - { id: D3-CH, name: "Credential Hardening" }
+telemetry:
+  channels:
+    - "Security"
+    - "Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational"
+  event_ids:
+    - "4624"
+    - "4625"
+    - "1149"
+roles:
+  workstation: recommended
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: recommended
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 92
+  blast_radius: 94
+  detection_value: 88
+  deployment_friction: 48
+  validation_confidence: 94
+source_id: MS-RDP

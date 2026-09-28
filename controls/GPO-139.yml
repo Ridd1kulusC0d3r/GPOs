@@ -1,0 +1,44 @@
+id: GPO-139
+rank: 139
+name: "Reset account lockout counter after"
+category: { id: CAT01, name: "Account Policies & Authentication" }
+priority: { cti_score: 85.95, band: P2 }
+defense: { function: Contain, rollout: "Pilot -> Enforce" }
+policy:
+  path: "Computer Configuration\\Windows Settings\\Security Settings\\Account Policies"
+  recommended_state: "15 minutes or less"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0006 Credential Access"
+    - "TA0004 Privilege Escalation"
+  techniques:
+    - { id: T1110, name: "Brute Force" }
+    - { id: T1078, name: "Valid Accounts" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-CH, name: "Credential Hardening" }
+telemetry:
+  channels:
+    - "Security"
+  event_ids:
+    - "4625"
+    - "4740"
+    - "4776"
+roles:
+  workstation: recommended
+  member-server: recommended
+  domain-controller: required
+  paw: required
+  developer-workstation: recommended
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 92
+  blast_radius: 88
+  detection_value: 75
+  deployment_friction: 35
+  validation_confidence: 90
+source_id: MS-SCT

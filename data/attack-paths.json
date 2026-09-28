@@ -1,0 +1,139 @@
+{
+  "paths": {
+    "credential-theft": {
+      "title": "Credential Theft to Privileged Access",
+      "nodes": [
+        {
+          "type": "scenario",
+          "id": "credential-theft",
+          "label": "Credential theft opportunity"
+        },
+        {
+          "type": "attack",
+          "id": "T1003",
+          "label": "OS Credential Dumping"
+        },
+        {
+          "type": "controls",
+          "id": "CAT04",
+          "label": "Credential Protection & LSA"
+        },
+        {
+          "type": "controls",
+          "id": "CAT03",
+          "label": "Windows LAPS"
+        },
+        {
+          "type": "telemetry",
+          "id": "Security",
+          "label": "4624 / 4625 / privileged logons"
+        }
+      ]
+    },
+    "lateral-movement": {
+      "title": "Credential Replay to Lateral Movement",
+      "nodes": [
+        {
+          "type": "scenario",
+          "id": "lateral-movement",
+          "label": "Stolen/reused credential"
+        },
+        {
+          "type": "attack",
+          "id": "T1550.002",
+          "label": "Pass the Hash"
+        },
+        {
+          "type": "attack",
+          "id": "T1021",
+          "label": "Remote Services"
+        },
+        {
+          "type": "controls",
+          "id": "CAT05",
+          "label": "Kerberos & NTLM Reduction"
+        },
+        {
+          "type": "controls",
+          "id": "CAT06",
+          "label": "SMB hardening"
+        },
+        {
+          "type": "telemetry",
+          "id": "Security",
+          "label": "4624 / 4776 / share events"
+        }
+      ]
+    },
+    "ransomware": {
+      "title": "Execution to Ransomware Impact",
+      "nodes": [
+        {
+          "type": "scenario",
+          "id": "ransomware",
+          "label": "Payload or exploited application"
+        },
+        {
+          "type": "attack",
+          "id": "T1204.002",
+          "label": "Malicious File"
+        },
+        {
+          "type": "controls",
+          "id": "CAT09",
+          "label": "ASR"
+        },
+        {
+          "type": "controls",
+          "id": "CAT11",
+          "label": "Application Control"
+        },
+        {
+          "type": "attack",
+          "id": "T1486",
+          "label": "Data Encrypted for Impact"
+        },
+        {
+          "type": "telemetry",
+          "id": "Defender",
+          "label": "ASR / Defender / process telemetry"
+        }
+      ]
+    },
+    "ad-takeover": {
+      "title": "Identity Compromise to AD Takeover",
+      "nodes": [
+        {
+          "type": "scenario",
+          "id": "ad-takeover",
+          "label": "Privileged identity compromise"
+        },
+        {
+          "type": "attack",
+          "id": "T1098",
+          "label": "Account Manipulation"
+        },
+        {
+          "type": "attack",
+          "id": "T1484.001",
+          "label": "Group Policy Modification"
+        },
+        {
+          "type": "controls",
+          "id": "CAT16",
+          "label": "Directory auditing"
+        },
+        {
+          "type": "controls",
+          "id": "CAT04",
+          "label": "Credential protection"
+        },
+        {
+          "type": "telemetry",
+          "id": "Security",
+          "label": "472x / 5136 / 4662"
+        }
+      ]
+    }
+  }
+}

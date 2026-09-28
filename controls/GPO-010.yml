@@ -1,0 +1,51 @@
+id: GPO-010
+rank: 10
+name: "Password age days"
+category: { id: CAT03, name: "Windows LAPS" }
+priority: { cti_score: 98.85, band: P0 }
+defense: { function: Prevent, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Policies\\Administrative Templates\\System\\LAPS"
+  recommended_state: "30 days or shorter based on risk"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0006 Credential Access"
+    - "TA0008 Lateral Movement"
+  techniques:
+    - { id: T1078.003, name: "Valid Accounts: Local Accounts" }
+    - { id: T1550.002, name: "Pass the Hash" }
+    - { id: T1021, name: "Remote Services" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-CRO, name: "Credential Rotation" }
+    - { id: D3-CH, name: "Credential Hardening" }
+telemetry:
+  channels:
+    - "Microsoft-Windows-LAPS/Operational"
+  event_ids:
+    - "10006"
+    - "10011"
+    - "10012"
+    - "10013"
+    - "10017"
+    - "10019"
+    - "10034"
+    - "10035"
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: evaluate
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 96
+  blast_radius: 96
+  detection_value: 82
+  deployment_friction: 28
+  validation_confidence: 95
+source_id: MS-LAPS

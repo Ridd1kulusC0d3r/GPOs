@@ -1,0 +1,47 @@
+id: GPO-195
+rank: 195
+name: "Select when Quality Updates are received"
+category: { id: CAT20, name: "Updates, Mark-of-the-Web & Legacy Surface Reduction" }
+priority: { cti_score: 78.4, band: P3 }
+defense: { function: Prevent, rollout: "Enforce" }
+policy:
+  path: "Computer Configuration\\Administrative Templates\\Windows Components"
+  recommended_state: "Use short risk-based deferral and expedited deployment for actively exploited issues"
+attack:
+  version: "19.2"
+  tactics:
+    - "TA0001 Initial Access"
+    - "TA0002 Execution"
+    - "TA0004 Privilege Escalation"
+    - "TA0005 Stealth"
+    - "TA0112 Defense Impairment"
+  techniques:
+    - { id: T1190, name: "Exploit Public-Facing Application" }
+    - { id: T1203, name: "Exploitation for Client Execution" }
+    - { id: T1218, name: "System Binary Proxy Execution" }
+d3fend:
+  version: "1.6.0"
+  techniques:
+    - { id: D3-ACH, name: "Application Configuration Hardening" }
+    - { id: D3-AH, name: "Application Hardening" }
+telemetry:
+  channels:
+    - "Microsoft-Windows-WindowsUpdateClient/Operational"
+  event_ids:
+
+roles:
+  workstation: required
+  member-server: required
+  domain-controller: required
+  paw: required
+  developer-workstation: required
+  jump-server: required
+  rds-server: required
+  high-security: required
+risk_components:
+  threat_prevalence: 90
+  blast_radius: 91
+  detection_value: 60
+  deployment_friction: 38
+  validation_confidence: 94
+source_id: MS-SCT
