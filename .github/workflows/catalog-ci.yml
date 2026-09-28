@@ -1,0 +1,29 @@
+name: Catalog CI
+
+on:
+  push:
+    branches: ["main", "feat/**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Top 200 catalog
+        run: python scripts/validate_catalog.py
+
+      - name: Smoke-test query interface
+        run: |
+          python scripts/query_catalog.py --priority P0 --limit 5
+          python scripts/query_catalog.py --search NTLM --limit 5
