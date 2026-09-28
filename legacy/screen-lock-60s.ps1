@@ -6,4 +6,3 @@ Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaveActive" -V
 
 # Configura o tempo de espera da tela de bloqueio em segundos
 Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaveTimeOut" -Value $TimeoutSegundos
-

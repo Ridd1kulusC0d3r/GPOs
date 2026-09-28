@@ -1,0 +1,14 @@
+# Configurar a política de exibição de tela de bloqueio antes de exigir senha
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen /t REG_DWORD /d 0 /f
+
+# Configurar a política de exigir senha após um período de inatividade
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v InactivityTimeoutSecs /t REG_DWORD /d 60 /f
+
+# Ativar a política de exigir senha após a tela ser desligada
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\System" /v AllowDomainDelayLock /t REG_DWORD /d 1 /f
+
+# Configurar a política de exigir senha após retomar da suspensão
+reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Power\PowerSettings\0e796bdb-100d-47d6-a2d5-f7d2daa51f51\6fe69556-704a-47a0-8f24-c28d936fda47" /v Attributes /t REG_DWORD /d 2 /f
+
+# Atualizar as políticas de grupo
+gpupdate /force
