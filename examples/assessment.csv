@@ -1,0 +1,4 @@
+id,current_state
+GPO-001,Enabled on supported hardware
+GPO-008,Back up to Active Directory or Microsoft Entra ID as appropriate
+GPO-028,Disabled

@@ -16,3 +16,5 @@ jobs:
       - run: python scripts/gpoctl.py path credential-theft
       - run: python scripts/export_graph.py --check
       - run: python scripts/export_graph.py --format stix --check
+      - run: python scripts/baseline_compare.py --self-test
+      - run: python scripts/export_neo4j.py --check

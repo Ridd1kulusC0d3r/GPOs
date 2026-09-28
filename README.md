@@ -19,9 +19,9 @@ Every control now has its own `controls/GPO-xxx.yml` with ATT&CK v19.2 technique
 - 6 threat packs: ransomware, credential theft, lateral movement, initial access, living off the land, AD takeover
 - actor overlays for Scattered Spider, TeamPCP, ShinyHunters and Storm-0501
 - environment-adjusted risk engine
-- heuristic GPO-report drift check
+- baseline comparator for CSV/JSON/XML/HTML/text exports\n- heuristic GPO-report drift check
 - Attack Path to Policy
-- graph + STIX 2.1 custom-object export
+- graph + STIX 2.1 custom-object export\n- Neo4j node/relationship export
 - Sigma starter rules
 - 10 defensive labs
 - GitHub Pages explorer
@@ -35,7 +35,7 @@ python scripts/gpoctl.py pack ransomware
 python scripts/gpoctl.py profile domain-controller
 python scripts/gpoctl.py path credential-theft
 python scripts/gpoctl.py score GPO-001 --asset-criticality 100 --detection-gap 70
-python scripts/gpoctl.py drift --input gpo-report.xml
+python scripts/gpoctl.py drift --input gpo-report.xml\npython scripts/baseline_compare.py --observed assessment.csv\npython scripts/export_neo4j.py --output exports/neo4j
 ```
 
 ## Repository
