@@ -1,20 +1,69 @@
 name: Deploy Pages Explorer
+
 on:
-  push: { branches: [main] }
+  push:
+    branches: [main]
   workflow_dispatch:
-permissions: { contents: read, pages: write, id-token: write }
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
+  pages-status:
+    runs-on: ubuntu-latest
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+      - name: Check whether GitHub Pages is enabled
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          status=$(curl -sS -o /tmp/pages.json -w "%{http_code}"             -H "Accept: application/vnd.github+json"             -H "Authorization: Bearer $GH_TOKEN"             -H "X-GitHub-Api-Version: 2022-11-28"             "https://api.github.com/repos/${GITHUB_REPOSITORY}/pages")
+
+          if [ "$status" = "200" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+            echo "GitHub Pages is enabled."
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=GitHub Pages not enabled::Enable Settings > Pages > Build and deployment > Source: GitHub Actions, then run this workflow manually."
+          fi
+
   deploy:
-    environment: { name: github-pages, url: "${{ steps.deployment.outputs.page_url }}" }
+    needs: pages-status
+    if: needs.pages-status.outputs.enabled == 'true'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: |
-          mkdir _site
-          cp site/* _site/
-          cp data/control-index.json data/threat-packs.json data/profiles.json data/attack-paths.json _site/
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with: { path: _site }
-      - id: deployment
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build static explorer
+        run: |
+          mkdir -p _site
+          cp -r site/* _site/
+          cp data/control-index.json _site/control-index.json
+          cp data/threat-packs.json _site/threat-packs.json
+          cp data/profiles.json _site/profiles.json
+          cp data/attack-paths.json _site/attack-paths.json
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy Pages
+        id: deployment
         uses: actions/deploy-pages@v4
